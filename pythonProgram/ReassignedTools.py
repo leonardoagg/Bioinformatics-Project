@@ -1,3 +1,7 @@
+from random import seed
+from random import randint
+
+
 def load_dataset(path, datset_format: bool):
     dataset = open(path, "r")
     dataset_lines = []
@@ -229,4 +233,77 @@ def printResults(dataset_path,classifier_path,TotalReassignment,reassigned_class
     f.close()
 
     print("File ", outputfile, " created.")
+
+
+def load_multi_classifier_result(path_list):
+    classifiers_result = {}
+
+    num_classifiers = len(path_list)
+
+    for i in range(0, num_classifiers):
+
+        classification = open(path_list[i], 'r')
+
+        for line in classification:
+            col = []
+            for j in range(0, len(line.split())):
+                col.append(line.split()[j])
+
+            if col[0] not in classifiers_result.keys():
+                classifiers_result[col[0]] = []
+                classifiers_result[col[0]].append(col[1])
+
+            else:
+                classifiers_result[col[0]].append(col[1])
+
+        print("Classifier", i + 1, " of ", len(path_list), " loaded")
+        classification.close()
+
+    return classifiers_result
+
+
+def get_generalized_inverted_index(clusters, dataset):
+    num_clusters = max(clusters) + 1
+    num_reads = len(dataset)
+    inverted_index = []
+
+    for i in range(0, num_clusters):
+        inverted_index.append([])
+
+    for i in range(0, num_reads):
+        for j in range(0, len(dataset[i][1])):
+            inverted_index[dataset[i][2]].append(dataset[i][1][j])
+
+    return inverted_index
+
+
+def label_assignment_generalized(classifiers_result):
+    seed(1)
+    classifier_ensamble = {}
+
+    for read in classifiers_result.keys():
+
+        labels = classifiers_result[read]
+        label_dict = frequency_search(labels)
+
+        max_frequency = - 1
+
+        for label in label_dict.keys():
+            if (label_dict[label] >= max_frequency):
+                max_frequency = label_dict[label]
+
+        max_labels = []
+        for label in label_dict.keys():
+            if label_dict[label] == max_frequency:
+                max_labels.append(label)
+
+        if len(max_labels) == 1:
+            classifier_ensamble[read] = max_labels[0]
+
+        else:
+            value = randint(0, len(max_labels) - 1)
+            classifier_ensamble[read] = max_labels[value]
+
+    return classifier_ensamble
+
 
