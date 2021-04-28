@@ -1,0 +1,14 @@
+For For single version:
+
+python ReassignedByClusterSingle.py dataset clusters IsFastaFile(True/False) TotalReassignemnt(True/False) classification 
+
+ex:
+python ReassignedByClusterSingle.py ../../datiperpython/all_250000_2.fq ../../datiperpython/all_250000_2+RC.fasta.a16.t20.txt False True ../../datiperpython/strex_kraken2_250000.res
+
+
+For For multiple version:
+
+python ReassignedByClusterSingle.py dataset clusters IsFastaFile(True/False) TotalReassignemnt(True/False) classification 
+
+ex:
+python ReassignedByClusterMultiple.py ../../datiperpython/all_250000_2.fq ../../datiperpython/all_250000_2+RC.fasta.a16.t20.txt False True ../../datiperpython/strex_kraken2_250000.res ../../datiperpython/strex_kraken1_250000.res ../../datiperpython/strex_clark_genus_250000.res ../../datiperpython/strex_clark_species_250000.res ../../datiperpython/strex_centrifuge_250000.res
