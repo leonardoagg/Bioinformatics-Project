@@ -276,6 +276,74 @@ def get_generalized_inverted_index(clusters, dataset):
 
     return inverted_index
 
+'''
+# It takes in input a dictionary that contains {label: frequency} pairs.
+# Returns a pair {label: frequency} with maximal frequency.
+# Ties broken randomly.
+# BUT IF MAX LABEL IS EQUAL TO '0', THEN THE SECOND MOST FREQUENT LABEL IS SELECTED IF IT EXISTS
+
+def get_max_label_zero_version(label_dict): 
+
+    candidates = [] # list of max label candidates
+    
+    max_frequency = 0
+    max_label = ''
+
+    # if only one item is contained in the label dict then just return the {label: frequency} pair as max label and correspondent max frequency
+    if len(label_dict) == 1:
+        # access the only item in the dict
+        for label, frequency in label_dict.items():
+            # set max label and max frequency
+            max_label = label
+            max_frequency = frequency
+    
+    else:
+        for label, frequency in label_dict.items(): # find max frequency
+
+            if frequency > max_frequency and label != '0': # if the label is equal to zero then we ignore its frequency 
+                max_frequency = frequency
+
+        for label, frequency in label_dict.items(): # find labels with frequency equals to max frequency different from zero 
+
+            if frequency == max_frequency and label != '0':
+                candidates.append(label)
+
+        value = randint(0, len(candidates) - 1)  # choose randomly the label with max frequency if there are multiple candidate labels
+
+        max_label = candidates[value]
+         
+    return [max_label, max_frequency] 
+    
+'''
+
+'''
+# It takes in input a dictionary that contains {label: frequency} pairs.
+# Returns a pair {label: frequency} with maximal frequency.
+# Ties broken randomly.
+
+def get_max_label(label_dict): 
+
+    candidates = [] # list of max label candidates
+    
+    max_frequency = 0
+    
+    for label, frequency in label_dict.items(): # find max frequency
+        
+        if frequency > max_frequency:
+            max_frequency = frequency
+    
+    for label, frequency in label_dict.items(): # find labels with frequency equals to max frequency
+        
+        if frequency == max_frequency:
+            candidates.append(label)
+
+    value = randint(0, len(candidates) - 1)  # choose randomly the label with max frequency if there are multiple candidate labels
+
+    max_label = candidates[value]
+         
+    return [max_label, max_frequency, count]
+'''
+
 
 def label_assignment_generalized(classifiers_result):
     seed(1)
