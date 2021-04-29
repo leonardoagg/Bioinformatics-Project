@@ -91,7 +91,16 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
 
     print("Classes have been elaborated in: ", stop - start)
 
-    outputfile = "multioutputfile"
+    starting_point = 0
+    end_point = 0
+
+    for i in range(len(dataset_path)):
+        if dataset_path[i] == '/':
+            starting_point = i + 1
+
+    outputfile = dataset_path[starting_point:len(dataset_path)]
+	
+    outputfile = outputfile + "_multioutputfile"
 
     if Version == 1:
         outputfile = outputfile + ".V1"
