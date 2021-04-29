@@ -1,9 +1,9 @@
 import time
-import ReassignedTools
+import ReassignmentTools as ReassignedTools
 import sys
 
 
-def main(dataset_path, clusters_path, IsFasta, TotalReassignment,classifier_path):
+def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifier_path):
     start = time.time()
 
     if TotalReassignment:
@@ -44,44 +44,30 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment,classifier_path
     print("Inverted index created in time: ", stop - start)
 
     start = time.time()
-    #i = 0
+    
     max_label_per_cluster_list = []
     max_label_list = []
     
-    ## TOGLIERE DA QUI --------------------->
-    for cluster in inverted_index:
-        label_dict = ReassignedTools.frequency_search(cluster)
-        max_label = ""
-        max_count = 0
-        for label, count in label_dict.items():
-            if count > max_count:
-                max_count = count
-                max_label = label
-        max_label_list.append(max_label)
-        max_label_per_cluster_list.append([max_label, max_count, len(cluster)])
-        #i = i + 1
-    ## ----------------------------------> A QUI
-    
-    '''
     for cluster in inverted_index:
     
         # return a dictionary with {label: frequency} pairs that appear in the examinated cluster
-        label_dict = frequency_search(cluster)
+        label_dict = ReassignedTools.frequency_search(cluster)
     
-        ## if TRASH ZERO VERSION:
-        # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
-        # max_label = get_max_label_zero_version(label_dict)
+        ##if TRASH ZERO VERSION:
+        if Zero:
+            # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
+            max_label = ReassignedTools.get_max_label_zero_version(label_dict)
         
-        ## else:
-        # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
-        max_label = get_max_label(label_dict)
+        else:
+            # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
+            max_label = ReassignedTools.get_max_label(label_dict)
     
         # append the label with max frequncy in the list of all max labels that is used in the reassignment step
         max_label_list.append(max_label[0])
     
         # append the triplet [max label, max frequency, number of total reads in the cluster]
         max_label_per_cluster_list.append([max_label[0], max_label[1], len(cluster)])
-    '''
+    
 
     if TotalReassignment:
         reassigned_classification = ReassignedTools.total_reassignment(dataset, max_label_list)
@@ -110,7 +96,7 @@ if __name__ == "__main__":
 
     dataset_path = inputStream[1]
     clusters_path = inputStream[2]
-    classifier_path = inputStream[5]
+    classifier_path = inputStream[6]
 
     if inputStream[3] == 'True':
         IsFasta = True
@@ -121,5 +107,10 @@ if __name__ == "__main__":
         TotalReassignment = True
     else:
         TotalReassignment = False
+        
+    if inputStream[5] == 'True':
+        Zero = True
+    else:
+        Zero = False
 
-    main(dataset_path, clusters_path, IsFasta, TotalReassignment,classifier_path)
+    main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifier_path)

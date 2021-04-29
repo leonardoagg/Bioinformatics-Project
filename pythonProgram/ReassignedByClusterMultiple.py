@@ -1,9 +1,9 @@
 import time
-import ReassignedTools
+import ReassignmentTools as ReassignedTools
 import sys
 
 
-def main(dataset_path, clusters_path, IsFasta, TotalReassignment, path_list):
+def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version, path_list):
 
     if TotalReassignment:
         print("Total reassignment has been chosen")
@@ -27,74 +27,61 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, path_list):
     ## if VERSIONE 1:
     ## VERSIONE 1 --> APPLICO A classifiers_result IL METODO label_assignment_generalized,
     ## IN CUI VADO A SELEZIONARE UNA LABEL TRA QUELLE DEI VARI CLASSIFICATORI (SCELGO QUELLA PIU' FREQUENTE)
-    ## start = time.time()
-    ## clusters_list = ReassignedTools.label_assignment_generalized(classifiers_result)
-    ## stop = time.time()
-    ## print("Time for label assignment to all the reads: ", end - start)
+    if Version == 1:
+        start = time.time()
+        classifiers_result = ReassignedTools.label_assignment_generalized(classifiers_result)
+        stop = time.time()
+        print("Time for label selection to all the reads: ", stop - start)
     
-    ## ENTRAMBE LE VERSIONI
     start = time.time()
     dataset = ReassignedTools.build_dataset(dataset_lines, clusters_list, classifiers_result)
     end = time.time()
 
     print("Time for loading the dataset: ", end - start)
 
-    
     ## if VERSIONE 2:
     ## VERSIONE 2 --> HO UNA LISTA DI CLASSI PER OGNI READ, QUINDI
     ## APPLICO LA FUNZIONE get_generalized_inverted_index
-    start = time.time()
-    inverted_index = ReassignedTools.get_generalized_inverted_index(clusters_list, dataset)
-    stop = time.time()
+    if Version == 2:
+        start = time.time()
+        inverted_index = ReassignedTools.get_generalized_inverted_index(clusters_list, dataset)
+        stop = time.time()
 
     ## if VERSIONE 1:
     ## VERSIONE 1 --> HO UNA LABEL PER OGNI READ, QUINDI
     ## APPLICO LA FUNZIONE get_inverted_index
-    ## start = time.time()
-    ## inverted_index = ReassignedTools.get_inverted_index(clusters_list, dataset)
-    ## stop = time.time()
+    else:
+        start = time.time()
+        inverted_index = ReassignedTools.get_inverted_index(clusters_list, dataset)
+        stop = time.time()
     
     print("Inverted index created in time: ", stop - start)
 
     start = time.time()
-    #i = 0
+    
     max_label_per_cluster_list = []
     max_label_list = []
     
-    ## TOGLIERE DA QUI --------------------->
-    for cluster in inverted_index:
-        label_dict = ReassignedTools.frequency_search(cluster)
-        max_label = ""
-        max_count = 0
-        for label, count in label_dict.items():
-            if count > max_count:
-                max_count = count
-                max_label = label
-        max_label_list.append(max_label)
-        max_label_per_cluster_list.append([max_label, max_count, len(cluster)])
-        #i = i + 1
-    ## ----------------------------------> A QUI
-    
-    '''
     for cluster in inverted_index:
     
         # return a dictionary with {label: frequency} pairs that appear in the examinated cluster
-        label_dict = frequency_search(cluster)
+        label_dict = ReassignedTools.frequency_search(cluster)
     
         ## if TRASH ZERO VERSION:
-        # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
-        # max_label = get_max_label_zero_version(label_dict)
+        if Zero:
+            # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
+            max_label = ReassignedTools.get_max_label_zero_version(label_dict)
         
-        ## else:
-        # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
-        max_label = get_max_label(label_dict)
+        else:
+            # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
+            max_label = ReassignedTools.get_max_label(label_dict)
     
         # append the label with max frequncy in the list of all max labels that is used in the reassignment step
         max_label_list.append(max_label[0])
     
         # append the triplet [max label, max frequency, number of total reads in the cluster]
         max_label_per_cluster_list.append([max_label[0], max_label[1], len(cluster)])
-    '''
+    
     
     if TotalReassignment:
         reassigned_classification = ReassignedTools.total_reassignment(dataset, max_label_list)
@@ -105,7 +92,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, path_list):
 
     print("Classes have been elaborated in: ", stop - start)
 
-    outputfile = "multioutputfilespecies.res"
+    outputfile = "multioutputfile.res"
 
     f = open(outputfile, "w")
 
@@ -147,10 +134,20 @@ if __name__ == "__main__":
     else:
         TotalReassignment = False
 
+    if inputStream[5] == 'True':
+        Zero = True
+    else:
+        Zero = False
+    
+    if inputStream[6] == '1':
+        Version= 1
+    else:
+        Version = 2
+        
     path_list = []
-    count = 5
+    count = 7
     while len(inputStream) > count:
         path_list.append(inputStream[count])
         count = count + 1
 
-    main(dataset_path, clusters_path, IsFasta, TotalReassignment, path_list)
+    main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version, path_list)
