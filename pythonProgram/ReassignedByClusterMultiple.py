@@ -1,5 +1,5 @@
 import time
-import ReassignmentTools as ReassignedTools
+import ReassignmentTools
 import sys
 
 
@@ -11,13 +11,13 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
         print("Partial reassignment has been chosen")
 
     start = time.time()
-    classifiers_result = ReassignedTools.load_multi_classifier_result(path_list)
+    classifiers_result = ReassignmentTools.load_multi_classifier_result(path_list)
     end = time.time()
 
     print("loading multi classifier:", end - start)
 
-    dataset_lines = ReassignedTools.load_dataset(dataset_path, IsFasta)
-    clusters_list = ReassignedTools.load_clusters_result(clusters_path)
+    dataset_lines = ReassignmentTools.load_dataset(dataset_path, IsFasta)
+    clusters_list = ReassignmentTools.load_clusters_result(clusters_path)
 
     if IsFasta:
         print("Fasta file loaded")
@@ -29,12 +29,12 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
     ## IN CUI VADO A SELEZIONARE UNA LABEL TRA QUELLE DEI VARI CLASSIFICATORI (SCELGO QUELLA PIU' FREQUENTE)
     if Version == 1:
         start = time.time()
-        classifiers_result = ReassignedTools.label_assignment_generalized(classifiers_result)
+        classifiers_result = ReassignmentTools.label_assignment_generalized(classifiers_result)
         stop = time.time()
         print("Time for label selection to all the reads: ", stop - start)
     
     start = time.time()
-    dataset = ReassignedTools.build_dataset(dataset_lines, clusters_list, classifiers_result)
+    dataset = ReassignmentTools.build_dataset(dataset_lines, clusters_list, classifiers_result)
     end = time.time()
 
     print("Time for loading the dataset: ", end - start)
@@ -44,7 +44,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
     ## APPLICO LA FUNZIONE get_generalized_inverted_index
     if Version == 2:
         start = time.time()
-        inverted_index = ReassignedTools.get_generalized_inverted_index(clusters_list, dataset)
+        inverted_index = ReassignmentTools.get_generalized_inverted_index(clusters_list, dataset)
         stop = time.time()
 
     ## if VERSIONE 1:
@@ -52,7 +52,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
     ## APPLICO LA FUNZIONE get_inverted_index
     else:
         start = time.time()
-        inverted_index = ReassignedTools.get_inverted_index(clusters_list, dataset)
+        inverted_index = ReassignmentTools.get_inverted_index(clusters_list, dataset)
         stop = time.time()
     
     print("Inverted index created in time: ", stop - start)
@@ -65,34 +65,48 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
     for cluster in inverted_index:
     
         # return a dictionary with {label: frequency} pairs that appear in the examinated cluster
-        label_dict = ReassignedTools.frequency_search(cluster)
+        label_dict = ReassignmentTools.frequency_search(cluster)
     
-        ## if TRASH ZERO VERSION:
+        ## if  ZERO VERSION:
         if Zero:
             # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
-            max_label = ReassignedTools.get_max_label_zero_version(label_dict)
+            max_label = ReassignmentTools.get_max_label_zero_version(label_dict)
         
         else:
             # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
-            max_label = ReassignedTools.get_max_label(label_dict)
+            max_label = ReassignmentTools.get_max_label(label_dict)
     
         # append the label with max frequncy in the list of all max labels that is used in the reassignment step
         max_label_list.append(max_label[0])
     
         # append the triplet [max label, max frequency, number of total reads in the cluster]
         max_label_per_cluster_list.append([max_label[0], max_label[1], len(cluster)])
-    
-    
+
     if TotalReassignment:
-        reassigned_classification = ReassignedTools.total_reassignment(dataset, max_label_list)
+        reassigned_classification = ReassignmentTools.total_reassignment(dataset, max_label_list)
     else:
-        reassigned_classification = ReassignedTools.partial_reassignment(dataset, max_label_list)
+        reassigned_classification = ReassignmentTools.partial_reassignment(dataset, max_label_list)
 
     stop = time.time()
 
     print("Classes have been elaborated in: ", stop - start)
 
-    outputfile = "multioutputfile.res"
+    outputfile = "multioutputfile"
+
+    if Version == 1:
+        outputfile = outputfile + ".V1"
+    else:
+        outputfile = outputfile + ".V2"
+
+    if TotalReassignment:
+        outputfile = outputfile + ".totalReassignment"
+    else:
+        outputfile = outputfile + ".partialReassignment"
+
+    if Zero:
+        outputfile = outputfile + ".zero_version.res"
+    else:
+        outputfile = outputfile + ".res"
 
     f = open(outputfile, "w")
 
@@ -110,31 +124,35 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
 
 if __name__ == "__main__":
     inputStream = sys.argv
-
-    if len(inputStream) < 6 or (inputStream[3] != 'True' and inputStream[3] != 'False') or (
-            inputStream[4] != 'True' and inputStream[4] != 'False'):
+    if len(inputStream) < 8\
+            or (inputStream[3] != 'True' and inputStream[3] != 'False' and inputStream[3] != 'true' and inputStream[3] != 'false') \
+            or (inputStream[4] != 'True' and inputStream[4] != 'False' and inputStream[4] != 'true' and inputStream[4] != 'false') \
+            or (inputStream[5] != 'True' and inputStream[5] != 'False' and inputStream[5] != 'true' and inputStream[5] != 'false')\
+            or (inputStream[6] != '1' and inputStream[6] != '2'):
         print("No correct parameters:")
         print("1: dataset_path")
         print("2: clusters_path")
         print("3: True/False to indicate if the file is fasta o fastq")
         print("4: True/False to indicate if execute total(True) or partial(False) reassignment")
-        print("5 and successive: classifiers paths")
+        print("5: True/False for the execution of zero program version")
+        print("6: Number of the program's version to execute (look at readme file)")
+        print("7 and successive: classifiers paths")
         exit()
 
     dataset_path = inputStream[1]
     clusters_path = inputStream[2]
 
-    if inputStream[3] == 'True':
+    if inputStream[3] == 'True' or inputStream[3] == 'true':
         IsFasta = True
     else:
         IsFasta = False
 
-    if inputStream[4] == 'True':
+    if inputStream[4] == 'True' or inputStream[4] == 'true':
         TotalReassignment = True
     else:
         TotalReassignment = False
 
-    if inputStream[5] == 'True':
+    if inputStream[5] == 'True' or inputStream[5] == 'true':
         Zero = True
     else:
         Zero = False

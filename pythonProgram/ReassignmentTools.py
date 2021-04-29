@@ -197,7 +197,7 @@ def partial_reassignment(dataset, max_labels):
     return reassigned_classification
 
 
-def printResults(dataset_path,classifier_path,TotalReassignment,reassigned_classification):
+def printResults(dataset_path,classifier_path,TotalReassignment,reassigned_classification, Zero):
     starting_point = 0
     end_point = 0
 
@@ -219,9 +219,14 @@ def printResults(dataset_path,classifier_path,TotalReassignment,reassigned_class
     outputfile = outputfile + '_' + classifier_path[starting_point:end_point]
 
     if TotalReassignment:
-        outputfile = outputfile + ".totalReassignment.res"
+        outputfile = outputfile + ".totalReassignment"
     else:
-        outputfile = outputfile + ".partialReassignment.res"
+        outputfile = outputfile + ".partialReassignment"
+
+    if Zero:
+        outputfile = outputfile + ".zero_version.res"
+    else:
+        outputfile = outputfile + ".res"
 
     f = open(outputfile, "w")
 
