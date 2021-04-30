@@ -216,15 +216,15 @@ def printResults(dataset_path,classifier_path,TotalReassignment,reassigned_class
             end_point = len(classifier_path) - i - 2
             break
 
-    outputfile = outputfile + '_' + classifier_path[starting_point:end_point]
+    outputfile = outputfile + '_' + classifier_path[starting_point:end_point] + "_S"
 
     if TotalReassignment:
-        outputfile = outputfile + ".totalReassignment"
+        outputfile = outputfile + "T"
     else:
-        outputfile = outputfile + ".partialReassignment"
+        outputfile = outputfile + "P"
 
     if Zero:
-        outputfile = outputfile + ".zero_version.res"
+        outputfile = outputfile + "Z.res"
     else:
         outputfile = outputfile + ".res"
 

@@ -13,7 +13,7 @@
             ######## CHANGE THESE VALUES WITH YOURS #########
 
 Dataset="../../datiperpython/all_250000_2.fq"
-Clusters="../../datiperpython/all_250000_2+RC.fasta.a16.t20.txt"
+Clusters="../../datiperpython/all_250000_1+RC.fasta.a16.t20.txt"
 ClassificationPath="../../datiperpython"
 PythonProgramPath="../pythonProgram"
 

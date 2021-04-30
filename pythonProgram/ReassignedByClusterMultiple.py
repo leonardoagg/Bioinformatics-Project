@@ -100,22 +100,20 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
 
     outputfile = dataset_path[starting_point:len(dataset_path)]
 	
-    outputfile = outputfile + "_multioutputfile"
-
-    if Version == 1:
-        outputfile = outputfile + ".V1"
-    else:
-        outputfile = outputfile + ".V2"
+    outputfile = outputfile + "_M"
 
     if TotalReassignment:
-        outputfile = outputfile + ".totalReassignment"
+        outputfile = outputfile + "T"
     else:
-        outputfile = outputfile + ".partialReassignment"
+        outputfile = outputfile + "P"
 
     if Zero:
-        outputfile = outputfile + ".zero_version.res"
+        outputfile = outputfile + "Z"
+
+    if Version == 1:
+        outputfile = outputfile + ".V1.res"
     else:
-        outputfile = outputfile + ".res"
+        outputfile = outputfile + ".V2.res"
 
     f = open(outputfile, "w")
 

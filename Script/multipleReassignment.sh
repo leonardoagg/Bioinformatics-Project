@@ -33,7 +33,7 @@ Zero="False"
 
 #choose the version of the program (look at the documentation)
 #version 1 or 2
-Version="2"
+Version="1"
 
 ############################################################################
 
