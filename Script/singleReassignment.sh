@@ -24,11 +24,11 @@ IsFasta="False"
 # -true if you want to execute the total reassignment
 # -false if you want to execute only the partial 
 # reassignment 
-TotalReassignemnt="True"
+TotalReassignemnt="false"
 
 #choose if you want to execute the Zero version 
 #of the program
-Zero="False"
+Zero="false"
 
 ############################################################################
 
