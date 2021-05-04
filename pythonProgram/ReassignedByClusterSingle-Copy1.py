@@ -11,7 +11,11 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifi
     else:
         print("Partial reassignment has been chosen")
 
-    dataset_lines = ReassignmentTools.load_dataset(dataset_path, IsFasta)
+    if IsFasta:
+        dataset_lines = ReassignmentTools.load_dataset(dataset_path, IsFasta)
+    else:
+        (dataset_lines, line_score) = ReassignmentTools.load_dataset(dataset_path, IsFasta)
+        scores = ReassignmentTools.computeScore(line_score)
 
     if IsFasta:
         print("Fasta file loaded")
@@ -37,7 +41,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifi
 
     start = time.time()
 
-    inverted_index = ReassignmentTools.score_get_inverted_index(clusters_list, dataset)
+    inverted_index = ReassignmentTools.score_get_inverted_index(clusters_list, dataset, scores)
 
     stop = time.time()
 
@@ -51,7 +55,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifi
     for cluster in inverted_index:
     
         # return a dictionary with {label: frequency} pairs that appear in the examinated cluster
-        label_dict = ReassignmentTools.score_frequency_search(cluster)
+        label_dict = ReassignmentTools.score_search(cluster)
     
         ##if ZERO VERSION:
         if Zero:

@@ -40,7 +40,9 @@ NumClassifiers=$(ls $ClassificationPath/*.res | wc -l)
 echo "There are "$NumClassifiers" classifiers"
 
 i=1
-PythonProgramName="ReassignedByClusterSingle.py"
+
+#PythonProgramName="ReassignedByClusterSingle.py"
+PythonProgramName="ReassignedByClusterSingle-Copy1.py"
 for Classifier in $(ls $ClassificationPath/*.res); do
 	echo "Classifier "$i" : "$Classifier
 
