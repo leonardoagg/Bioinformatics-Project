@@ -18,7 +18,7 @@ results_dir="$working_root/Results"
 dataset_name="all_250000"
 
 #choose between species and genus (remember to remove the opposite res file)
-version="genus"
+version="species"
 
 if [ ! -d "$results_dir" ]
 then
