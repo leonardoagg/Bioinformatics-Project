@@ -1,7 +1,7 @@
 from random import seed
 from random import randint
 
-
+'''
 def load_dataset(path, datset_format: bool):
     dataset = open(path, "r")
     dataset_lines = []
@@ -21,7 +21,48 @@ def load_dataset(path, datset_format: bool):
     dataset.close()
 
     return dataset_lines
+'''
 
+def load_dataset(path, dataset_format : bool):
+
+    dataset = open(path, "r")
+    
+    dataset_lines = [] # list to store ids of reads
+    line_score = [] # list to store quality scores of reads if Fastq dataset format
+    
+    if (dataset_format):
+        divisor = 2
+        
+    else:
+        divisor = 4
+
+    index = 0
+    for line in dataset:
+        
+        if index % divisor == 0:
+            
+            read_id = line.split()[0]
+            
+            if '/' in read_id:
+                dataset_lines.append(read_id[1: read_id.index('/')])
+            
+            else:
+                dataset_lines.append(read_id[1: len(read_id)])
+        
+        if not dataset_format and index % divisor == 3:
+            read_score = line.split()[0]
+            line_score.append(read_score)
+            
+        index = index + 1
+
+    dataset.close()
+    
+    if dataset_format:
+        return dataset_lines 
+    else:
+        return (dataset_lines, line_score)
+    
+    
 
 def load_clusters_result(path):
     clusters = open(path, "r")
@@ -375,3 +416,43 @@ def label_assignment_generalized(classifiers_result):
             classifier_ensamble[read] = max_labels[value]
 
     return classifier_ensamble
+
+#score start from 0 to 93 but it's represented using ASCII characters starting from 33 to 126.
+
+def computeScore(line_score):
+    scores = []
+    length = len(line_score[0])
+    for line in(line_score):
+        count = 0
+        for char in(line):
+            count += ord(char) - 33
+        scores.append(count/length)
+    return scores
+
+
+def score_get_inverted_index(clusters, dataset, scores):
+    num_clusters = max(clusters) + 1
+    num_reads = len(dataset)
+    inverted_index = []
+
+    for i in range(0, num_clusters):
+        inverted_index.append([])
+
+    for i in range(0, num_reads):
+        inverted_index[dataset[i][2]].append((dataset[i][1],scores[i]))
+
+    return inverted_index
+
+def score_search(cluster):
+    label_dict = {}
+
+    #pair = (label,score)
+    for pair in cluster:
+
+        if pair[0] in list(label_dict):
+            label_dict[pair[0]] = label_dict[pair[0]] + pair[1] 
+        else:
+            # if it does not exist, it's automatically created
+            label_dict[pair[0]] = pair[1]
+
+    return label_dict
