@@ -1,0 +1,11 @@
+Parameter,Value
+classifier,Clark_genus
+num_cluster,64628
+patological_cluster,4220
+num_reads,3125000
+patological_read,26416
+zero_cluster,2370
+zero_reads,353950
+non_zero_read,1256989
+ties,715
+zero_ties,644
