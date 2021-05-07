@@ -5,6 +5,8 @@ python ReassignedByClusterSingle.py dataset clusters IsFastaFile(True/False) Tot
 ex:
 python ReassignedByClusterSingle.py ../../datiperpython/all_250000_2.fq ../../datiperpython/all_250000_2+RC.fasta.a16.t20.txt False True False ../../datiperpython/strex_kraken2_250000.res
 
+python ReassignedByClusterSingle.py ../../all_250000_1.fq ../../all_250000_2+RC.fasta.a16.t20.txt False false False ../../strex_kraken2_250000.res
+
 
 For multiple version:
 
@@ -12,6 +14,9 @@ python ReassignedByClusterSingle.py dataset clusters IsFastaFile(True/False) Tot
 
 ex:
 python ReassignedByClusterMultiple.py ../../datiperpython/all_250000_2.fq ../../datiperpython/all_250000_2+RC.fasta.a16.t20.txt False True False 1 ../../datiperpython/strex_kraken2_250000.res ../../datiperpython/strex_kraken1_250000.res ../../datiperpython/strex_clark_genus_250000.res ../../datiperpython/strex_clark_species_250000.res ../../datiperpython/strex_centrifuge_250000.res
+
+python ReassignedByClusterMultiple.py ../../all_250000_1.fq ../../all_250000_2+RC.fasta.a16.t20.txt False false False 2 ../../strex_kraken2_250000.res ../../strex_kraken1_250000.res ../../strex_centrifuge_250000.res
+
 
 
 PER GIOIA:

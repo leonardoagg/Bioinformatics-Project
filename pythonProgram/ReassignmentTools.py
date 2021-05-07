@@ -1,7 +1,7 @@
 from random import seed
 from random import randint
 
-'''
+
 def load_dataset(path, datset_format: bool):
     dataset = open(path, "r")
     dataset_lines = []
@@ -12,17 +12,26 @@ def load_dataset(path, datset_format: bool):
         divisor = 4
 
     index = 0
+
     for line in dataset:
+        
         if index % divisor == 0:
+            
             read_id = line.split()[0]
-            dataset_lines.append(read_id[1: len(read_id) - 2])
+            
+            if '/' in read_id:
+                dataset_lines.append(read_id[1: read_id.index('/')])
+            
+            else:
+                dataset_lines.append(read_id[1: len(read_id)])
+        
         index = index + 1
 
     dataset.close()
 
     return dataset_lines
-'''
 
+'''
 def load_dataset(path, dataset_format : bool):
 
     dataset = open(path, "r")
@@ -60,9 +69,9 @@ def load_dataset(path, dataset_format : bool):
     if dataset_format:
         return dataset_lines 
     else:
-        return (dataset_lines, line_score)
+        return (dataset_lines,line_score)
     
-    
+   ''' 
 
 def load_clusters_result(path):
     clusters = open(path, "r")
@@ -120,7 +129,7 @@ def get_inverted_index(clusters, dataset):
 
     return inverted_index
 
-
+'''
 def find_labels(read_ids, classification_output):
     complete_classifier_result = []
     found: bool = False
@@ -142,6 +151,7 @@ def find_labels(read_ids, classification_output):
 
     return complete_classifier_result
 
+'''
 
 # dict --> (class, occurences)
 def frequency_search(cluster):
@@ -157,12 +167,14 @@ def frequency_search(cluster):
 
     return label_dict
 
-
+'''
 def intersection(lst1, lst2):
     lst3 = [value for value in lst1 if value in lst2]
     return lst3
+'''
 
 
+'''
 # Iterative Binary Search Function
 # It returns index of x in given array arr if present,
 # else returns -1
@@ -192,6 +204,7 @@ def diff(li1, li2):
     return li_dif
 
 
+
 # Iterative Binary Search Function
 # It returns index of x in given array arr if present,
 # else returns -1
@@ -214,6 +227,7 @@ def binary_search_list(arr, x):
     # If we reach here, then the element was not present
     return -1
 
+'''
 
 def total_reassignment(dataset, max_labels):
     reassigned_classification = []
@@ -417,6 +431,9 @@ def label_assignment_generalized(classifiers_result):
 
     return classifier_ensamble
 
+
+'''
+
 #score start from 0 to 93 but it's represented using ASCII characters starting from 33 to 126.
 
 def computeScore(line_score):
@@ -456,3 +473,5 @@ def score_search(cluster):
             label_dict[pair[0]] = pair[1]
 
     return label_dict
+
+'''

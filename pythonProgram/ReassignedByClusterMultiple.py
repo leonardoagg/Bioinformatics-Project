@@ -84,7 +84,14 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
 
     if TotalReassignment:
         reassigned_classification = ReassignmentTools.total_reassignment(dataset, max_label_list)
+        
     else:
+        # if Version 2 we have to assign a single label to each read before computing the partial reassignment  
+        if Version == 2: 
+            # we apply majority vote rule to select the label of each read among the labels assigned by each input classifier
+            classifiers_result = ReassignmentTools.label_assignment_generalized(classifiers_result)
+            dataset = ReassignmentTools.build_dataset(dataset_lines, clusters_list, classifiers_result)
+        # compute the partial reassignment
         reassigned_classification = ReassignmentTools.partial_reassignment(dataset, max_label_list)
 
     stop = time.time()
