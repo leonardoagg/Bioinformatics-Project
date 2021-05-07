@@ -10,16 +10,6 @@ There are two different versions of the program:
 
 ### 1. Single version
 
-
-```mermaid
-graph LR
-A[classification.res]---->B[ReassignedByClusterSingle.py]
-C[dataset.fasta]---->B
-D[clusters]---->B
-B---->E[reassignedClassification.res]
-```
-
-
 For running the single version program you can proceed in two different ways:
 
  - run the comand with the following parameters:
@@ -51,17 +41,6 @@ For running the single version program you can proceed in two different ways:
 
 ### 2. Multiple version
 
-```mermaid
-graph LR
-A[classification_1.res]---->B[ReassignedByClusterMultiple.py]
-F[classification_2.res]---->B
-G[classification_3.res]---->B
-H[classification_N.res]---->B
-
-C[dataset.fasta]---->B
-D[clusters]---->B
-B---->E[reassignedClassification.res]
-```
 For running the multiple version program you can proceed in two different ways:
 
  - run the comand with the following parameters:
