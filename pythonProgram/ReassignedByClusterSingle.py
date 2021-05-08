@@ -22,21 +22,21 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifi
     classifier_results = ReassignmentTools.load_classifier_result(classifier_path)
 
     # new Structure : id , classifier result , cluster
-
     dataset = ReassignmentTools.build_dataset(dataset_lines, clusters_list, classifier_results)
 
     stop = time.time()
 
     print("Files loaded and datasets created in time: ", stop - start)
 
+    # control of the files' correctness 
     if len(dataset_lines) != len(clusters_list):
         print("Error in input files!")
         exit()
 
     # INVERTED INDEX
-
     start = time.time()
 
+    # list of all the classes in each cluster
     inverted_index = ReassignmentTools.get_inverted_index(clusters_list, dataset)
 
     stop = time.time()
@@ -48,6 +48,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifi
     max_label_per_cluster_list = []
     max_label_list = []
     
+    # work on each cluster in order to define the right reassignment
     for cluster in inverted_index:
     
         # return a dictionary with {label: frequency} pairs that appear in the examinated cluster
@@ -68,7 +69,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifi
         # append the triplet [max label, max frequency, number of total reads in the cluster]
         max_label_per_cluster_list.append([max_label[0], max_label[1], len(cluster)])
     
-
+    #choice of the method to use looking at the input paremeter
     if TotalReassignment:
         reassigned_classification = ReassignmentTools.total_reassignment(dataset, max_label_list)
     else:
@@ -77,12 +78,14 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifi
 
     print("Classes have been elaborated in: ", stop - start)
 
+    # saving the results creating the correct file
     ReassignmentTools.printResults(dataset_path, classifier_path, TotalReassignment, reassigned_classification, Zero)
 
     print("Done")
 
 
 if __name__ == "__main__":
+    # control of the inputstream
     inputStream = sys.argv
     if len(inputStream) < 7 or \
             (inputStream[3] != 'True' and inputStream[3] != 'False' and inputStream[3] != 'true' and inputStream[3] != 'false')\

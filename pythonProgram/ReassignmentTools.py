@@ -2,6 +2,8 @@ from random import seed
 from random import randint
 
 
+# two different ways to load the dataset in order to manage both fasta and fastq files
+# it returns the list of reads' id
 def load_dataset(path, datset_format: bool):
     dataset = open(path, "r")
     dataset_lines = []
@@ -73,6 +75,7 @@ def load_dataset(path, dataset_format : bool):
     
    ''' 
 
+# it returns a list which contains the number of the cluster assigned to the corresponding read
 def load_clusters_result(path):
     clusters = open(path, "r")
     clusters_list = []
@@ -85,6 +88,8 @@ def load_clusters_result(path):
     return clusters_list
 
 
+# it returns a dictionary where the key is the read id and the value is the corresponding class
+# class got from classifier 
 def load_classifier_result(path):
     classification = open(path, 'r')
     classifier_results = {}
@@ -101,6 +106,9 @@ def load_classifier_result(path):
     return classifier_results
 
 
+# this function manages the 3 main structures. 
+# it returns a list where each element contains : [id, class, cluster]
+# of course this list has the same length of the number of reads in the dataset
 def build_dataset(dataset_ids, clusters, classifier):
     final_dataset = []
     for i in range(0, len(dataset_ids)):
@@ -116,6 +124,8 @@ def build_dataset(dataset_ids, clusters, classifier):
     return final_dataset
 
 
+# it returns a list with the same length of the number of clusters
+# each element contains the list of all the classes which occur in the corresponding cluster
 def get_inverted_index(clusters, dataset):
     num_clusters = max(clusters) + 1
     num_reads = len(dataset)
@@ -153,7 +163,8 @@ def find_labels(read_ids, classification_output):
 
 '''
 
-# dict --> (class, occurences)
+# given a cluster occurences [class1, class2,...,class1]
+# it returns a dictionary --> (class, occurences)
 def frequency_search(cluster):
     label_dict = {}
 
@@ -229,6 +240,7 @@ def binary_search_list(arr, x):
 
 '''
 
+# it returns the total assignment with the max label
 def total_reassignment(dataset, max_labels):
     reassigned_classification = []
 
@@ -238,7 +250,7 @@ def total_reassignment(dataset, max_labels):
 
     return reassigned_classification
 
-
+# it return a partial reassignment (only missclassified ones)
 def partial_reassignment(dataset, max_labels):
     reassigned_classification = []
 
@@ -252,15 +264,11 @@ def partial_reassignment(dataset, max_labels):
     return reassigned_classification
 
 
+# function used to store the result in a file
+# used to manage the name in the right way
 def printResults(dataset_path, classifier_path, TotalReassignment, reassigned_classification, Zero):
     starting_point = 0
     end_point = 0
-
-    #    for i in range(len(dataset_path)):
-    #       if dataset_path[i] == '/':
-    #          starting_point = i + 1
-
-    #outputfile = dataset_path[starting_point:len(dataset_path)]
 
     for i in range(len(classifier_path)):
         if classifier_path[i] == '/':
@@ -295,6 +303,7 @@ def printResults(dataset_path, classifier_path, TotalReassignment, reassigned_cl
     print("File ", outputfile, " created.")
 
 
+# version of load classifiers for the multiple version
 def load_multi_classifier_result(path_list):
     classifiers_result = {}
 
@@ -400,6 +409,7 @@ def get_max_label(label_dict):
     max_label = candidates[value]
 
     return [max_label, max_frequency]
+
 
 
 def label_assignment_generalized(classifiers_result):

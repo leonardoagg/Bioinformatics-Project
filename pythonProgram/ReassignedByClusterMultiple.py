@@ -24,9 +24,9 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
     else:
         print("Fastq file loaded")
 
-    ## if VERSIONE 1:
-    ## VERSIONE 1 --> APPLICO A classifiers_result IL METODO label_assignment_generalized,
-    ## IN CUI VADO A SELEZIONARE UNA LABEL TRA QUELLE DEI VARI CLASSIFICATORI (SCELGO QUELLA PIU' FREQUENTE)
+    ## if version 1:
+    ## version 1 --> apply to classifiers_result the method label_assignment_generalized,
+    ## where can be selected a label among classifiers' classes (choosing the most frequent) 
     if Version == 1:
         start = time.time()
         classifiers_result = ReassignmentTools.label_assignment_generalized(classifiers_result)
@@ -39,17 +39,16 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
 
     print("Time for loading the dataset: ", end - start)
 
-    ## if VERSIONE 2:
-    ## VERSIONE 2 --> HO UNA LISTA DI CLASSI PER OGNI READ, QUINDI
-    ## APPLICO LA FUNZIONE get_generalized_inverted_index
+    ## if version 2:
+    ## version 2 --> there is a classes list for each read, for this reason
+    ## it's applied the function get_generalized_inverted_index
     if Version == 2:
         start = time.time()
         inverted_index = ReassignmentTools.get_generalized_inverted_index(clusters_list, dataset)
         stop = time.time()
 
-    ## if VERSIONE 1:
-    ## VERSIONE 1 --> HO UNA LABEL PER OGNI READ, QUINDI
-    ## APPLICO LA FUNZIONE get_inverted_index
+    ## if version 1:
+    ## version 1 --> there is a single label for each read -> call the function get_inverted_index
     else:
         start = time.time()
         inverted_index = ReassignmentTools.get_inverted_index(clusters_list, dataset)
@@ -61,7 +60,8 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
     
     max_label_per_cluster_list = []
     max_label_list = []
-    
+
+    # work on each cluster in order to define the right reassignment
     for cluster in inverted_index:
     
         # return a dictionary with {label: frequency} pairs that appear in the examinated cluster
@@ -81,10 +81,9 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
     
         # append the triplet [max label, max frequency, number of total reads in the cluster]
         max_label_per_cluster_list.append([max_label[0], max_label[1], len(cluster)])
-
+    #choice of the method to use looking at the input paremeter
     if TotalReassignment:
-        reassigned_classification = ReassignmentTools.total_reassignment(dataset, max_label_list)
-        
+        reassigned_classification = ReassignmentTools.total_reassignment(dataset, max_label_list)    
     else:
         # if Version 2 we have to assign a single label to each read before computing the partial reassignment  
         if Version == 2: 
@@ -98,6 +97,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
 
     print("Classes have been elaborated in: ", stop - start)
 
+    # saving the result into a correct named file
     starting_point = 0
     end_point = 0
 
@@ -137,6 +137,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
 
 
 if __name__ == "__main__":
+    # control of the inputstream
     inputStream = sys.argv
     if len(inputStream) < 8\
             or (inputStream[3] != 'True' and inputStream[3] != 'False' and inputStream[3] != 'true' and inputStream[3] != 'false') \
