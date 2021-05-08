@@ -13,7 +13,7 @@
             ######## CHANGE THESE VALUES WITH YOURS #########
 
 Dataset="../../datiperpython/all_250000_2.fq"
-Clusters="../../datiperpython/all_250000_1+RC.fasta.a16.t25.txt"
+Clusters="../../datiperpython/all_250000_1+RC.fasta.a16.t40.txt"
 ClassificationPath="../../datiperpython"
 PythonProgramPath="../pythonProgram"
 
@@ -28,7 +28,7 @@ TotalReassignemnt="true"
 
 #choose if you want to execute the Zero version 
 #of the program
-Zero="false"
+Zero="true"
 
 ############################################################################
 
@@ -41,8 +41,8 @@ echo "There are "$NumClassifiers" classifiers"
 
 i=1
 
-#PythonProgramName="ReassignedByClusterSingle.py"
-PythonProgramName="ReassignedByClusterSingle-Copy1.py"
+PythonProgramName="ReassignedByClusterSingle.py"
+
 for Classifier in $(ls $ClassificationPath/*.res); do
 	echo "Classifier "$i" : "$Classifier
 

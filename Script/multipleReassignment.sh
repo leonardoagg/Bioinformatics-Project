@@ -13,7 +13,7 @@
             ######## CHANGE THESE VALUES WITH YOURS #########
 
 Dataset="../../datiperpython/all_250000_2.fq"
-Clusters="../../datiperpython/all_250000_1+RC.fasta.a16.t20.txt"
+Clusters="../../datiperpython/all_250000_1+RC.fasta.a16.t40.txt"
 ClassificationPath="../../datiperpython"
 PythonProgramPath="../pythonProgram"
 
@@ -25,15 +25,15 @@ IsFasta="False"
 # -true if you want to execute the total reassignment
 # -false if you want to execute only the partial 
 # reassignment 
-TotalReassignemnt="True"
+TotalReassignemnt="true"
 
 #choose if you want to execute the Zero version 
 #of the program
-Zero="False"
+Zero="true"
 
 #choose the version of the program (look at the documentation)
 #version 1 or 2
-Version="1"
+Version="2"
 
 ############################################################################
 
