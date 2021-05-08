@@ -62,6 +62,16 @@ For running the multiple version program you can proceed in two different ways:
  
 **Note**: The *ClassificationPath* in the script represent the path to the folder because it uses all res files contained for *ClassificationFileList* parameter.
 
+### Output files legend
+- classificator_dataset_SP.res : single version, partial reassignment
+- classificator_dataset_SPZ.res : single version, partial reassignment, zero version
+- classificator_dataset_ST.res : single version, total reassignment
+- classificator_dataset_STZ.res : single version, total reassignment, zero version
+- dataset_MP.V1.res : multiple version, version 1
+- dataset_MP.V2.res : multiple version, version 2
+- dataset_MPZ.V1.res : multiple version, version 1, zero version
+- dataset_MPZ.V2.res : multiple version, version 2, zero version
+
 ## Results analysis
 The third script has been created in order to analyze output files. It uses the tool **evaluate_calls**. 
 This script takes in input all the output files produced by single and multiple version executions and produces a csv file with all the evaluations.
