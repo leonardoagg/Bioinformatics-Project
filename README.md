@@ -49,7 +49,7 @@ For running the multiple version program you can proceed in two different ways:
     
 - run the script 
 
-	`$ sh multipleeReassignment.sh`
+	`$ sh multipleReassignment.sh`
 	
 	by first setting in it parameters. They are the same of the single version, except for:
 	
