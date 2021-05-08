@@ -62,7 +62,7 @@ For running the multiple version program you can proceed in two different ways:
  
 **Note**: The *ClassificationPath* in the script represent the path to the folder because it uses all res files contained for *ClassificationFileList* parameter.
 
-### Files legend
+### Output files legend
 - classificator_dataset_SP.res : single version, partial reassignment
 - classificator_dataset_SPZ.res : single version, partial reassignment, zero version
 - classificator_dataset_ST.res : single version, total reassignment
