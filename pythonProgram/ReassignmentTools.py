@@ -250,7 +250,7 @@ def total_reassignment(dataset, max_labels):
 
     return reassigned_classification
 
-# it return a partial reassignment (only missclassified ones)
+# it return a partial reassignment (only unclassified ones)
 def partial_reassignment(dataset, max_labels):
     reassigned_classification = []
 
