@@ -67,10 +67,14 @@ For running the multiple version program you can proceed in two different ways:
 - classificator_dataset_SPZ.res : single version, partial reassignment, zero version
 - classificator_dataset_ST.res : single version, total reassignment
 - classificator_dataset_STZ.res : single version, total reassignment, zero version
-- dataset_MP.V1.res : multiple version, version 1
-- dataset_MP.V2.res : multiple version, version 2
-- dataset_MPZ.V1.res : multiple version, version 1, zero version
-- dataset_MPZ.V2.res : multiple version, version 2, zero version
+- dataset_MP.V1.res : multiple version, partial reassignment, version 1
+- dataset_MP.V2.res : multiple version, partial reassignment, version 2
+- dataset_MPZ.V1.res : multiple version, partial reassignment, version 1, zero version
+- dataset_MPZ.V2.res : multiple version, partial reassignment, version 2, zero version
+- dataset_MT.V1.res : multiple version, total reassignment, version 1
+- dataset_MT.V2.res : multiple version,total reassignment version 2
+- dataset_MTZ.V1.res : multiple version,total reassignment version 1, zero version
+- dataset_MTZ.V2.res : multiple version,total reassignment version 2, zero version
 
 ## Results analysis
 The third script has been created in order to analyze output files. It uses the tool **evaluate_calls**. 
