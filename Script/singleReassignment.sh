@@ -13,7 +13,7 @@
             ######## CHANGE THESE VALUES WITH YOURS #########
 
 Dataset="../../datiperpython/all_250000_2.fq"
-Clusters="../../datiperpython/all_250000_1+RC.fasta.a22.t40.txt"
+Clusters="../../datiperpython/all_250000_1+RC.fasta.a50.t60.txt"
 ClassificationPath="../../datiperpython"
 PythonProgramPath="../pythonProgram"
 
@@ -30,6 +30,8 @@ TotalReassignemnt="true"
 #of the program
 Zero="true"
 
+#debug mode: to execute each type
+Debug="true"
 ############################################################################
 
 
@@ -45,8 +47,15 @@ PythonProgramName="ReassignedByClusterSingle.py"
 
 for Classifier in $(ls $ClassificationPath/*.res); do
 	echo "Classifier "$i" : "$Classifier
-
-	python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta $TotalReassignemnt $Zero $Classifier
+	if [ "$Debug" = "false" ]; then
+	then
+		python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta $TotalReassignemnt $Zero $Classifier
+	else
+		python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta True True $Classifier
+		python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta True False $Classifier
+		python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta False True $Classifier
+		python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta False False $Classifier
+	fi
 	
    	i=$((i+1))
 done

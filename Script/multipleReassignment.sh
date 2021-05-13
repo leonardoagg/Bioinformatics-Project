@@ -35,6 +35,8 @@ Zero="true"
 #version 1 or 2
 Version="2"
 
+#Debug mode: execute every combination's type
+Debug="true"
 ############################################################################
 
 echo "Dataset selected: "$Dataset
@@ -54,6 +56,17 @@ for Classifier in $(ls $ClassificationPath/*.res); do
    	i=$((i+1))
 done
 
-python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta $TotalReassignemnt $Zero $Version $Classifiers
+if [ "$Debug" = "false" ]; then
+	python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta $TotalReassignemnt $Zero $Version $Classifiers
+else
+	python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta True True 1 $Classifiers
+	python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta True True 2 $Classifiers
+	python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta True False 1 $Classifiers
+	python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta True False 2 $Classifiers
+	python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta False True 1 $Classifiers
+	python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta False True 2 $Classifiers
+	python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta False False 1 $Classifiers
+	python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta False False 2 $Classifiers
+fi
 
 
