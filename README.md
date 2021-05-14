@@ -35,6 +35,8 @@ For running the single version program you can proceed in two different ways:
 | *Zero* 	|	`true` if you want to run zero substitution version, `false` for normal version	 |
 | *ClassificationFile* 	|	path to the classification file you want to use for the reassignment (.res file) |
 | *ClassificationPath* 	|	path to the folder which contains all classification files you want to use for the reassignment (.res files) |
+| *Debug* 	| `true` if you want to run all possible combinations of parameters `false` to execute only the version indicated by the above parameters	 |
+
 
 
 **Note**: The *ClassificationPath* in the script represent the path to the folder because it executes the program for each .res file contains.
