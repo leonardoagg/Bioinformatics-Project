@@ -13,7 +13,7 @@
             ######## CHANGE THESE VALUES WITH YOURS #########
 
 Dataset="../../datiperpython/all_250000_2.fq"
-Clusters="../../datiperpython/all_250000_1+RC.fasta.a50.t60.txt"
+Clusters="../../datiperpython/all_250000_1+RC.fasta.a40.t50.txt"
 ClassificationPath="../../datiperpython"
 PythonProgramPath="../pythonProgram"
 
@@ -48,7 +48,6 @@ PythonProgramName="ReassignedByClusterSingle.py"
 for Classifier in $(ls $ClassificationPath/*.res); do
 	echo "Classifier "$i" : "$Classifier
 	if [ "$Debug" = "false" ]; then
-	then
 		python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta $TotalReassignemnt $Zero $Classifier
 	else
 		python $PythonProgramPath/$PythonProgramName $Dataset $Clusters $IsFasta True True $Classifier
