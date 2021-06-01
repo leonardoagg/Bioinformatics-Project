@@ -13,7 +13,7 @@
             ######## CHANGE THESE VALUES WITH YOURS #########
 
 Dataset="../../datiperpython/SRR/SRR1804065_1.filtr.fq"
-Clusters="../../datiperpython/SRR/SRR1804065_1.filtr+RC.fasta.a50.t55.txt"
+Clusters="../../datiperpython/SRR/SRR1804065_1.filtr+RC.fasta.a40.t70.txt"
 ClassificationPath="../../datiperpython/SRR"
 PythonProgramPath="../pythonProgram"
 
