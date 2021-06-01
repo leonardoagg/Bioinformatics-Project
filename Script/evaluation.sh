@@ -14,11 +14,14 @@ db_root="/home/leonardo/bioinfo/AlgoBio/Evaluation"
 # IMPORTANT: this directory has to contains only files corresponding to $dataset_name
 results_dir="$working_root/Results"
 
-#Name of dataset to evaluate. The name of Truth (truth_$dataset_name.tsv)
-dataset_name="all_250000"
+#Name of dataset to evaluate. 
+dataset_name="SRR1804065"
+
+#The name of Truth (.tsv)
+truth_name=$dataset_name"_truth.tsv"
 
 #choose between species and genus (remember to remove the opposite res file)
-version="genus"
+version="species"
 
 if [ ! -d "$results_dir" ]
 then
@@ -34,15 +37,15 @@ echo "Evaluation at $version level"
 
 outputfile="results_evaluation_$version.csv"
 
-echo "Classifier\ttp\tfp\tfn\tok\tno\t(tp+fp+fn+ok+no)\tsens\tprec\tf1\tpearson" >> $outputfile
+printf "Classifier\ttp\tfp\tfn\tok\tno\t(tp+fp+fn+ok+no)\tsens\tprec\tf1\tpearson\n" >> $outputfile
 
 i=1
 
 for Classifier in $(ls $results_dir/*.res); do
-	echo "Classifier "$i" : "$Classifier
+	printf "Classifier "$i" : "$Classifier"\n"
 	
-	Output=$($db_root/Utilities/evaluate_calls $db_root/Taxonomy/nodes.dmp $version $working_root/truth/truth_$dataset_name.tsv ${Classifier}) 
+	Output=$($db_root/Utilities/evaluate_calls $db_root/Taxonomy/nodes.dmp $version $working_root/truth/$truth_name ${Classifier}) 
 	filename="${Classifier##*/}"
-        echo "$filename\t${Output}" >> $outputfile 
+        printf "$filename\t${Output}\n" >> $outputfile 
    	i=$((i+1))
 done

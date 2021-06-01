@@ -12,9 +12,9 @@
 
             ######## CHANGE THESE VALUES WITH YOURS #########
 
-Dataset="../../datiperpython/all_250000_2.fq"
-Clusters="../../datiperpython/all_250000_1+RC.fasta.a16.t40.txt"
-ClassificationPath="../../datiperpython"
+Dataset="../../datiperpython/SRR/SRR1804065_1.filtr.fq"
+Clusters="../../datiperpython/SRR/SRR1804065_1.filtr+RC.fasta.a50.t55.txt"
+ClassificationPath="../../datiperpython/SRR"
 PythonProgramPath="../pythonProgram"
 
 
