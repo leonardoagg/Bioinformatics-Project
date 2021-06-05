@@ -1,6 +1,9 @@
 # Bioinformatics project
 
 This project works using LiME_binning output files https://github.com/saramont/LiME_binning.
+Team members: 
+- Aggio Leonardo
+- Sarti Gioia (https://github.com/GioiaS)
 
 ## Versions 
 There are two different versions of the program:
