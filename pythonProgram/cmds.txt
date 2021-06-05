@@ -1,0 +1,28 @@
+For single version:
+
+python ReassignedByClusterSingle.py dataset clusters IsFastaFile(True/False) TotalReassignemnt(True/False) Zero(True/False) classification 
+
+ex:
+python ReassignedByClusterSingle.py ../../datiperpython/all_250000_2.fq ../../datiperpython/all_250000_2+RC.fasta.a16.t20.txt False True False ../../datiperpython/strex_kraken2_250000.res
+
+python ReassignedByClusterSingle.py ../../all_250000_1.fq ../../all_250000_2+RC.fasta.a16.t20.txt False false False ../../strex_kraken2_250000.res
+
+
+For multiple version:
+
+python ReassignedByClusterSingle.py dataset clusters IsFastaFile(True/False) TotalReassignemnt(True/False) Zero(True/False) Version(1/2) classification 
+
+ex:
+python ReassignedByClusterMultiple.py ../../datiperpython/all_250000_2.fq ../../datiperpython/all_250000_2+RC.fasta.a16.t20.txt False True False 1 ../../datiperpython/strex_kraken2_250000.res ../../datiperpython/strex_kraken1_250000.res ../../datiperpython/strex_clark_genus_250000.res ../../datiperpython/strex_clark_species_250000.res ../../datiperpython/strex_centrifuge_250000.res
+
+python ReassignedByClusterMultiple.py ../../all_250000_1.fq ../../all_250000_2+RC.fasta.a16.t20.txt False false False 2 ../../strex_kraken2_250000.res ../../strex_kraken1_250000.res ../../strex_centrifuge_250000.res
+
+
+
+PER GIOIA:
+
+SINGLE:
+python ReassignedByClusterSingle.py ../../../Bio_Project/SimDataset/reads_datasets/all_250000_1.fq ../../../Bio_Project/results/LiME_binning_all_250000_1/all_250000_1+RC.fasta.a16.t20.txt False True False ../../../Bio_Project/SimDataset/classifiers_results/strex_centrifuge_250000.res
+
+MULTI:
+python ReassignedByClusterMultiple.py ../../../Bio_Project/SimDataset/reads_datasets/all_250000_1.fq ../../../Bio_Project/results/LiME_binning_all_250000_1/all_250000_1+RC.fasta.a16.t20.txt False True False 1 ../../../Bio_Project/SimDataset/classifiers_results/strex_centrifuge_250000.res ../../../Bio_Project/SimDataset/classifiers_results/strex_kraken1_250000.res ../../../Bio_Project/SimDataset/classifiers_results/strex_kraken2_250000.res

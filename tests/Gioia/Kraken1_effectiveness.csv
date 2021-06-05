@@ -1,0 +1,11 @@
+Parameter,Value
+classifier,Kraken1
+num_cluster,209815
+patological_cluster,12434
+num_reads,3125000
+patological_read,39714
+zero_cluster,3161
+zero_reads,260559
+non_zero_read,90225
+ties,12434
+zero_ties,1723
