@@ -14,68 +14,49 @@ def load_dataset(path, datset_format: bool):
         divisor = 4
 
     index = 0
-
     for line in dataset:
-        
-        if index % divisor == 0:
-            
-            read_id = line.split()[0]
-            
+        if index % divisor == 0:    
+            read_id = line.split()[0]  
             if '/' in read_id:
-                dataset_lines.append(read_id[1: read_id.index('/')])
-            
+                dataset_lines.append(read_id[1: read_id.index('/')]
             else:
                 dataset_lines.append(read_id[1: len(read_id)])
-        
         index = index + 1
 
     dataset.close()
 
     return dataset_lines
+                                    
+# load classifiers' output for the multiple version
+def load_multi_classifier_result(path_list):
+    classifiers_result = {}
 
-'''
-def load_dataset(path, dataset_format : bool):
+    num_classifiers = len(path_list)
 
-    dataset = open(path, "r")
-    
-    dataset_lines = [] # list to store ids of reads
-    line_score = [] # list to store quality scores of reads if Fastq dataset format
-    
-    if (dataset_format):
-        divisor = 2
-        
-    else:
-        divisor = 4
+    for i in range(0, num_classifiers):
 
-    index = 0
-    for line in dataset:
-        
-        if index % divisor == 0:
-            
-            read_id = line.split()[0]
-            
-            if '/' in read_id:
-                dataset_lines.append(read_id[1: read_id.index('/')])
-            
+        classification = open(path_list[i], 'r')
+
+        for line in classification:
+            col = []
+            for j in range(0, len(line.split())):
+                col.append(line.split()[j])
+
+            if col[0] not in classifiers_result.keys():
+                classifiers_result[col[0]] = []
+                classifiers_result[col[0]].append(col[1])
+
             else:
-                dataset_lines.append(read_id[1: len(read_id)])
-        
-        if not dataset_format and index % divisor == 3:
-            read_score = line.split()[0]
-            line_score.append(read_score)
-            
-        index = index + 1
+                classifiers_result[col[0]].append(col[1])
 
-    dataset.close()
-    
-    if dataset_format:
-        return dataset_lines 
-    else:
-        return (dataset_lines,line_score)
-    
-   ''' 
+        print("Classifier", i + 1, " of ", len(path_list), " loaded")
+        classification.close()
 
-# it returns a list which contains the number of the cluster assigned to the corresponding read
+    return classifiers_result                                    
+
+
+# it scans the binning output and returns a list which contains the cluster index assigned to the corresponding read 
+# (the i-th read of the input dataset is associated with the i-th line of the binning output)
 def load_clusters_result(path):
     clusters = open(path, "r")
     clusters_list = []
@@ -140,6 +121,7 @@ def get_inverted_index(clusters, dataset):
     return inverted_index
 
 '''
+# deprecated function
 def find_labels(read_ids, classification_output):
     complete_classifier_result = []
     found: bool = False
@@ -160,10 +142,9 @@ def find_labels(read_ids, classification_output):
     print("length complete classification output: ", len(complete_classifier_result))
 
     return complete_classifier_result
-
 '''
 
-# given a cluster occurences [class1, class2,...,class1]
+# given a cluster occurence [class1, class2,...,class1]
 # it returns a dictionary --> (class, occurences)
 def frequency_search(cluster):
     label_dict = {}
@@ -178,67 +159,6 @@ def frequency_search(cluster):
 
     return label_dict
 
-'''
-def intersection(lst1, lst2):
-    lst3 = [value for value in lst1 if value in lst2]
-    return lst3
-'''
-
-
-'''
-# Iterative Binary Search Function
-# It returns index of x in given array arr if present,
-# else returns -1
-def binary_search(arr, x):
-    low = 0
-    high = len(arr) - 1
-    mid = 0
-    while low <= high:
-        mid = (high + low) // 2
-        # If x is greater, ignore left half
-        if arr[mid] < x:
-            low = mid + 1
-        # If x is smaller, ignore right half
-        elif arr[mid] > x:
-            high = mid - 1
-        # means x is present at mid
-        else:
-            return mid
-    # If we reach here, then the element was not present
-    return -1
-
-
-# Python code t get difference of two lists
-# Not using set()
-def diff(li1, li2):
-    li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
-    return li_dif
-
-
-
-# Iterative Binary Search Function
-# It returns index of x in given array arr if present,
-# else returns -1
-def binary_search_list(arr, x):
-    low = 0
-    high = len(arr) - 1
-    mid = 0
-    while low <= high:
-        mid = (high + low) // 2
-        # print(arr[mid][0])
-        # If x is greater, ignore left half
-        if arr[mid][0] < x:
-            low = mid + 1
-        # If x is smaller, ignore right half
-        elif arr[mid][0] > x:
-            high = mid - 1
-        # means x is present at mid
-        else:
-            return mid
-    # If we reach here, then the element was not present
-    return -1
-
-'''
 
 # it returns the total assignment with the max label
 def total_reassignment(dataset, max_labels):
@@ -302,35 +222,8 @@ def printResults(dataset_path, classifier_path, TotalReassignment, reassigned_cl
 
     print("File ", outputfile, " created.")
 
-
-# version of load classifiers for the multiple version
-def load_multi_classifier_result(path_list):
-    classifiers_result = {}
-
-    num_classifiers = len(path_list)
-
-    for i in range(0, num_classifiers):
-
-        classification = open(path_list[i], 'r')
-
-        for line in classification:
-            col = []
-            for j in range(0, len(line.split())):
-                col.append(line.split()[j])
-
-            if col[0] not in classifiers_result.keys():
-                classifiers_result[col[0]] = []
-                classifiers_result[col[0]].append(col[1])
-
-            else:
-                classifiers_result[col[0]].append(col[1])
-
-        print("Classifier", i + 1, " of ", len(path_list), " loaded")
-        classification.close()
-
-    return classifiers_result
-
-
+                                     
+# get_inverted_index for multiple version 2 variant
 def get_generalized_inverted_index(clusters, dataset):
     num_clusters = max(clusters) + 1
     num_reads = len(dataset)
@@ -349,8 +242,33 @@ def get_generalized_inverted_index(clusters, dataset):
 # It takes in input a dictionary that contains {label: frequency} pairs.
 # Returns a pair {label: frequency} with maximal frequency.
 # Ties broken randomly.
-# BUT IF MAX LABEL IS EQUAL TO '0', THEN THE SECOND MOST FREQUENT LABEL IS SELECTED IF IT EXISTS
+def get_max_label(label_dict):
+    candidates = []  # list of max label candidates
 
+    max_frequency = 0
+
+    for label, frequency in label_dict.items():  # find max frequency
+
+        if frequency > max_frequency:
+            max_frequency = frequency
+
+    for label, frequency in label_dict.items():  # find labels with frequency equals to max frequency
+
+        if frequency == max_frequency:
+            candidates.append(label)
+
+    value = randint(0,
+                    len(candidates) - 1)  # choose randomly the label with max frequency if there are multiple candidate labels
+
+    max_label = candidates[value]
+
+    return [max_label, max_frequency]
+                                     
+
+# It takes in input a dictionary that contains {label: frequency} pairs.
+# Returns a pair {label: frequency} with maximal frequency.
+# Ties broken randomly.
+# BUT IF MAX LABEL IS EQUAL TO '0', THEN THE SECOND MOST FREQUENT LABEL IS SELECTED IF IT EXISTS
 def get_max_label_zero_version(label_dict):
     candidates = []  # list of max label candidates
 
@@ -383,35 +301,9 @@ def get_max_label_zero_version(label_dict):
 
     return [max_label, max_frequency]
 
-
-# It takes in input a dictionary that contains {label: frequency} pairs.
-# Returns a pair {label: frequency} with maximal frequency.
-# Ties broken randomly.
-
-def get_max_label(label_dict):
-    candidates = []  # list of max label candidates
-
-    max_frequency = 0
-
-    for label, frequency in label_dict.items():  # find max frequency
-
-        if frequency > max_frequency:
-            max_frequency = frequency
-
-    for label, frequency in label_dict.items():  # find labels with frequency equals to max frequency
-
-        if frequency == max_frequency:
-            candidates.append(label)
-
-    value = randint(0,
-                    len(candidates) - 1)  # choose randomly the label with max frequency if there are multiple candidate labels
-
-    max_label = candidates[value]
-
-    return [max_label, max_frequency]
-
-
-
+                                     
+# it applies majority vote rule to classifiers' outputs to select the label of each read
+# used by multiple version 2 partial reassignment normal and zero                                   
 def label_assignment_generalized(classifiers_result):
     seed(1)
     classifier_ensamble = {}
@@ -443,9 +335,50 @@ def label_assignment_generalized(classifiers_result):
 
 
 '''
+# SCORE VERSION
 
+# it returns two list: one containing reads' ids and one containing the quality score for each read
+def load_dataset(path, dataset_format : bool):
+
+    dataset = open(path, "r")
+    
+    dataset_lines = [] # list to store ids of reads
+    line_score = [] # list to store quality scores of reads if Fastq dataset format
+    
+    if (dataset_format):
+        divisor = 2
+        
+    else:
+        divisor = 4
+
+    index = 0
+    for line in dataset:
+        
+        if index % divisor == 0:
+            
+            read_id = line.split()[0]
+            
+            if '/' in read_id:
+                dataset_lines.append(read_id[1: read_id.index('/')])
+            
+            else:
+                dataset_lines.append(read_id[1: len(read_id)])
+        
+        if not dataset_format and index % divisor == 3:
+            read_score = line.split()[0]
+            line_score.append(read_score)
+            
+        index = index + 1
+
+    dataset.close()
+    
+    if dataset_format:
+        return dataset_lines 
+    else:
+        return (dataset_lines,line_score)
+  
+  
 #score start from 0 to 93 but it's represented using ASCII characters starting from 33 to 126.
-
 def computeScore(line_score):
     scores = []
     length = len(line_score[0])
@@ -469,6 +402,7 @@ def score_get_inverted_index(clusters, dataset, scores):
         inverted_index[dataset[i][2]].append((dataset[i][1],scores[i]))
 
     return inverted_index
+
 
 def score_search(cluster):
     label_dict = {}
