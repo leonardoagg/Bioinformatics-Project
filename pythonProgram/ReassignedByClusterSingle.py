@@ -11,15 +11,15 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifi
     else:
         print("Partial reassignment has been chosen")
 
-    dataset_lines = ReassignmentTools.load_dataset(dataset_path, IsFasta)
+    dataset_lines = ReassignmentTools.load_dataset(dataset_path, IsFasta) # input dataset loading
 
     if IsFasta:
         print("Fasta file loaded")
     else:
         print("Fastq file loaded")
 
-    clusters_list = ReassignmentTools.load_clusters_result(clusters_path)
-    classifier_results = ReassignmentTools.load_classifier_result(classifier_path)
+    clusters_list = ReassignmentTools.load_clusters_result(clusters_path) # binning output loading
+    classifier_results = ReassignmentTools.load_classifier_result(classifier_path) # classifier output loading
 
     # new Structure : id , classifier result , cluster
     dataset = ReassignmentTools.build_dataset(dataset_lines, clusters_list, classifier_results)
@@ -45,6 +45,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifi
 
     start = time.time()
     
+    # MAX LABEL PER CLUSTER SEARCH
     max_label_per_cluster_list = []
     max_label_list = []
     
@@ -54,10 +55,10 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifi
         # return a dictionary with {label: frequency} pairs that appear in the examinated cluster
         label_dict = ReassignmentTools.frequency_search(cluster)
     
-        ##if ZERO VERSION:
+        # if ZERO VERSION:
         if Zero:
             # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
-            max_label = ReassignmentTools.get_max_label_zero_version(label_dict)
+            max_label = ReassignmentTools.get_max_label_zero_version(label_dict) # label ZERO ignored
         
         else:
             # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
@@ -67,13 +68,16 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifi
         max_label_list.append(max_label[0])
     
         # append the triplet [max label, max frequency, number of total reads in the cluster]
-        max_label_per_cluster_list.append([max_label[0], max_label[1], len(cluster)])
+        # (for analysis purpose only)
+        max_label_per_cluster_list.append([max_label[0], max_label[1], len(cluster)]) 
     
-    #choice of the method to use looking at the input paremeter
+    # REASSIGNMENT STEP 
+    # the reassignment version is specified in the input parameters
     if TotalReassignment:
         reassigned_classification = ReassignmentTools.total_reassignment(dataset, max_label_list)
     else:
         reassigned_classification = ReassignmentTools.partial_reassignment(dataset, max_label_list)
+        
     stop = time.time()
 
     print("Classes have been elaborated in: ", stop - start)
