@@ -27,7 +27,7 @@ def load_dataset(path, datset_format: bool):
 
     return dataset_lines
                                     
-# load classifiers' output for the multiple version
+# it loads the multiple outputs of the classifiers for the multiple version
 def load_multi_classifier_result(path_list):
     classifiers_result = {}
 
