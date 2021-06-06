@@ -58,7 +58,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, classifi
         # if ZERO VERSION:
         if Zero:
             # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
-            max_label = ReassignmentTools.get_max_label_zero_version(label_dict) # label ZERO ignored
+            max_label = ReassignmentTools.get_max_label_zero_version(label_dict) # label '0' ignored
         
         else:
             # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency

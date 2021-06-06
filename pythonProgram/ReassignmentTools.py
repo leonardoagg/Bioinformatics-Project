@@ -303,7 +303,7 @@ def get_max_label_zero_version(label_dict):
 
                                      
 # it applies majority vote rule to classifiers' outputs to select the label of each read
-# used by multiple version 2 partial reassignment normal and zero                                   
+# used by multiple version                                   
 def label_assignment_generalized(classifiers_result):
     seed(1)
     classifier_ensamble = {}

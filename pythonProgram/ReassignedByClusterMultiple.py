@@ -11,22 +11,22 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
         print("Partial reassignment has been chosen")
 
     start = time.time()
-    classifiers_result = ReassignmentTools.load_multi_classifier_result(path_list)
+    classifiers_result = ReassignmentTools.load_multi_classifier_result(path_list) # outputs of the multiple classifiers loading
     end = time.time()
 
     print("loading multi classifier:", end - start)
 
-    dataset_lines = ReassignmentTools.load_dataset(dataset_path, IsFasta)
-    clusters_list = ReassignmentTools.load_clusters_result(clusters_path)
+    dataset_lines = ReassignmentTools.load_dataset(dataset_path, IsFasta) # dataset loading
+    clusters_list = ReassignmentTools.load_clusters_result(clusters_path) # binning output loading
 
     if IsFasta:
         print("Fasta file loaded")
     else:
         print("Fastq file loaded")
 
-    ## if version 1:
-    ## version 1 --> apply to classifiers_result the method label_assignment_generalized,
-    ## where can be selected a label among classifiers' classes (choosing the most frequent) 
+    # if version 1:
+    # version 1 --> apply to classifiers_result the method label_assignment_generalized
+    # to select for each read by choosing the most frequent label the outputs of the multiple classifiers 
     if Version == 1:
         start = time.time()
         classifiers_result = ReassignmentTools.label_assignment_generalized(classifiers_result)
@@ -39,16 +39,17 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
 
     print("Time for loading the dataset: ", end - start)
 
-    ## if version 2:
-    ## version 2 --> there is a classes list for each read, for this reason
-    ## it's applied the function get_generalized_inverted_index
+    # INVERTED INDEX
+    # if version 2:
+    # version 2 --> there is a list of labels for each read, for this reason
+    # we apply the function get_generalized_inverted_index
     if Version == 2:
         start = time.time()
         inverted_index = ReassignmentTools.get_generalized_inverted_index(clusters_list, dataset)
         stop = time.time()
 
-    ## if version 1:
-    ## version 1 --> there is a single label for each read -> call the function get_inverted_index
+    # if version 1:
+    # version 1 --> there is a single label for each read -> call the function get_inverted_index
     else:
         start = time.time()
         inverted_index = ReassignmentTools.get_inverted_index(clusters_list, dataset)
@@ -58,6 +59,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
 
     start = time.time()
     
+    # MAX LABEL PER CLUSTER SEARCH
     max_label_per_cluster_list = []
     max_label_list = []
 
@@ -67,10 +69,10 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
         # return a dictionary with {label: frequency} pairs that appear in the examinated cluster
         label_dict = ReassignmentTools.frequency_search(cluster)
     
-        ## if  ZERO VERSION:
+        # if ZERO VERSION:
         if Zero:
             # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
-            max_label = ReassignmentTools.get_max_label_zero_version(label_dict)
+            max_label = ReassignmentTools.get_max_label_zero_version(label_dict) # label '0' is ignored
         
         else:
             # return a pair [label, frequency], where label is the label with max frequency and frequency is max frequency
@@ -80,8 +82,11 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
         max_label_list.append(max_label[0])
     
         # append the triplet [max label, max frequency, number of total reads in the cluster]
-        max_label_per_cluster_list.append([max_label[0], max_label[1], len(cluster)])
-    #choice of the method to use looking at the input paremeter
+        # (only for analysis purpose)
+        max_label_per_cluster_list.append([max_label[0], max_label[1], len(cluster)]) 
+        
+    # REASSIGNMENT STEP
+    # the reassignment version is specified in the input parameters
     if TotalReassignment:
         reassigned_classification = ReassignmentTools.total_reassignment(dataset, max_label_list)    
     else:
@@ -89,6 +94,7 @@ def main(dataset_path, clusters_path, IsFasta, TotalReassignment, Zero, Version,
         if Version == 2: 
             # we apply majority vote rule to select the label of each read among the labels assigned by each input classifier
             classifiers_result = ReassignmentTools.label_assignment_generalized(classifiers_result)
+            # build the data structure needed by partial_reassignment function in input
             dataset = ReassignmentTools.build_dataset(dataset_lines, clusters_list, classifiers_result)
         # compute the partial reassignment
         reassigned_classification = ReassignmentTools.partial_reassignment(dataset, max_label_list)
