@@ -34,7 +34,7 @@ For running the single version program you can proceed in two different ways:
 |--|--|
 | *Dataset* 	|	path to fasta/fastq file of the dataset 	|
 | *Clusters* 	|	path to the corresponding LiME_binning output file |
-| *IsFasta* 	| `true` if the dataset is a fasta file, `false` if is a fast file	 |
+| *IsFasta* 	| `true` if the dataset is a fasta file, `false` if is a fastq file	 |
 | *TotalReassignemnt* |	`true` if you want to run total reassignment version, `false` if you want tu run the partial reassignment version	|
 | *Zero* 	|	`true` if you want to run zero substitution version, `false` for normal version	 |
 | *ClassificationFile* 	|	path to the classification file you want to use for the reassignment (.res file) |
