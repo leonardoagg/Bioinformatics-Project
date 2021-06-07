@@ -4,7 +4,7 @@ This project works using LiME_binning output files https://github.com/saramont/L
 
 Authors: 
 - Aggio Leonardo
-- Sarti Gioia (https://github.com/GioiaS)
+- Sarti Gioia 
 
 ## Versions 
 There are two different versions of the program:
