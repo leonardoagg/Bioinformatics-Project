@@ -1,0 +1,11 @@
+Parameter,Value
+classifier,Centrifuge
+num_cluster,665759
+patological_cluster,28890
+num_reads,3125000
+patological_read,51140
+zero_cluster,3588
+zero_reads,221267
+non_zero_read,58566
+ties,39812
+zero_ties,2856
