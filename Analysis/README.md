@@ -7,7 +7,7 @@ This folder contains the following jupyter notebooks:
 - EffectivenessGraphs.
 
 Notice that these notebooks can be run before running the reassignment tool. In fact, they can provide intresting information and insights to access in which extent the reassignment procedure can be effective. <br>
-In addtion, they can be helpful in the parameters of LiME_binning tool by providing a graphical representation of the binning result.
+In addtion, they can be helpful in tuning the parameters of LiME_binning tool by providing a graphical representation of the binning result.
 
 
 #### LiME_binning_output_analysis
