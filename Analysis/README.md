@@ -32,7 +32,7 @@ The output of these analysis is stored in a .csv file called <b><i>classifier_na
 In addition, it plots a graph with the top k largest clusters, where the parameter k can be arbitraly chosen (0 <= k < number of clusters) and, for each plotted cluster, the cardinality of the most frequent class is shown, the case in which the most frequent class is '0' (unlabeled) is distinghuished in the graph.
 
 
-#### EffectivenessGraph
+#### EffectivenessGraphs
 This notebook takes in input one or more outputs of the 'Effectiveness' notebook and generates graphs showing the results obtained in the just mentioned notebook. <br>
 The interesting features is that the 'Effectiveness output' of more classifiers can be plotted allowing a comparison and study of the difference between different classification outputs of the same reads dataset.
 
