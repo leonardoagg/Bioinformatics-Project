@@ -11,7 +11,6 @@ There are two different versions of the program:
 1. Single version
 2. Multiple version
 
-
 ### 1. Single version
 
 For running the single version program you can proceed in two different ways:
@@ -81,6 +80,24 @@ For running the multiple version program you can proceed in two different ways:
 - dataset_MT.V2.res : multiple version,total reassignment version 2
 - dataset_MTZ.V1.res : multiple version,total reassignment version 1, zero version
 - dataset_MTZ.V2.res : multiple version,total reassignment version 2, zero version
+
+## Files' structure 
+In the following paragraph is described the input file's structure.
+
+ - For clusters file (binning output) the structure is the following: <br>
+	*CLUSTER* <br>
+	*CLUSTER* <br>
+	*.* <br>
+	*.* <br>
+	*.* <br>
+	
+   Where the the row's number corresponds to i-th reads.
+ - For results file (.res) the structure is the following: <br>
+	*ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLASS* <br>
+	*ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLASS* <br>
+	*.* <br>
+	*.* <br>
+	*.* <br>
 
 ## Results analysis
 The third script has been created in order to analyze output files. It uses the tool **evaluate_calls**. 
