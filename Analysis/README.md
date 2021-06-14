@@ -38,7 +38,7 @@ The interesting features is that the 'Effectiveness output' of more classifiers 
 
 
 #### Other information
-All the notebooks have been run using examples files that can be found in the following folder: https://drive.google.com/drive/folders/13FQhXfBz6pPDQ69xSuQ0xaWyvtBokqKb?usp=sharing
+All the notebooks have been run using examples files that can be found in the following folder: https://drive.google.com/drive/folders/13FQhXfBz6pPDQ69xSuQ0xaWyvtBokqKb?usp=sharing. <br>
 The following files are not provided in the folder:
 - reads dataset file,
 - LiME_binning output file,
